@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Aspects :: BAMM Aspect Meta Model</title>
-    <link rel="canonical" href="https://openmanufacturingplatform.github.io/sds-bamm-aspect-meta-model/bamm-specification/v1.0.0/modeling-guidelines.html">
+    <link rel="canonical" href="https://openmanufacturingplatform.github.io/sds-bamm-aspect-meta-model/bamm-specification/snapshot/modeling-guidelines.html">
     <meta name="generator" content="Antora 2.3.4">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script>var uiRootPath = '../../_'</script>
@@ -13,7 +13,14 @@
 <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="https://openmanufacturingplatform.github.io/sds-bamm-aspect-meta-model">BAMM Aspect Meta Model</a>
+      <a class="navbar-item" href="https://openmanufacturingplatform.github.io/sds-bamm-aspect-meta-model">
+        <div class="logo-headline-wrapper">
+          <img class="logo" src="../../_/img/omp-logo.png" />
+          <span class="docu-title">
+            BAMM Aspect Meta Model
+          </span>
+        </div>
+      </a>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
         <span></span>
@@ -28,8 +35,7 @@
       </div>
     </div>
   </nav>
-</header>
-<div class="body">
+</header><div class="body">
 <div class="nav-container" data-component="bamm-specification" data-version="v1.0.0">
   <aside class="nav">
     <div class="panels">
@@ -99,13 +105,13 @@
   </div>
   <ul class="components">
     <li class="component is-current">
-      <a class="title" href="index.html">BAMM Aspect Meta Model</a>
+      <a class="title" href="../snapshot/index.html">BAMM Aspect Meta Model</a>
       <ul class="versions">
-        <li class="version is-current is-latest">
-          <a href="index.html">v1.0.0</a>
+        <li class="version is-latest">
+          <a href="../snapshot/index.html">snapshot</a>
         </li>
-        <li class="version">
-          <a href="../1.0-RC1/index.html">1.0-RC1</a>
+        <li class="version is-current">
+          <a href="index.html">v1.0.0</a>
         </li>
       </ul>
     </li>
@@ -117,7 +123,7 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="index.html" class="home-link"></a>
+  <a href="../snapshot/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">BAMM Aspect Meta Model</a></li>
@@ -128,8 +134,8 @@
 <div class="page-versions">
   <button class="version-menu-toggle" title="Show other versions of page">v1.0.0</button>
   <div class="version-menu">
+    <a class="version" href="../snapshot/modeling-guidelines.html">snapshot</a>
     <a class="version is-current" href="modeling-guidelines.html">v1.0.0</a>
-    <a class="version" href="../1.0-RC1/modeling-guidelines.html">1.0-RC1</a>
   </div>
 </div>
   <div class="edit-this-page"><a href="https://github.com/bci-oss/sds-bamm-aspect-meta-model/blob/v1.0.0/src/docs/modules/ROOT/pages/modeling-guidelines.adoc">Edit this Page</a></div>
@@ -149,7 +155,7 @@
 <ul>
 <li>
 <p>As mentioned in the <a href="index.html" class="page">Introduction</a>, Aspect models are described in RDF Turtle
-<a href="appendix/appendix.html#turtle" class="page">[turtle]</a>. The aspect specification will
+<a href="../snapshot/appendix/appendix.html#turtle" class="page">[turtle]</a>. The aspect specification will
 therefore assume basic familiarity with Turtle.</p>
 </li>
 <li>
@@ -289,10 +295,10 @@ referred via other namespaces (e.g., "xsd:"). See
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-turtle hljs" data-lang="turtle">@prefix : &lt;urn:bamm:com.mycompany.myapplication:1.0.0#&gt; .
-@prefix bamm: &lt;urn:bamm:org.open-manufacturing.digitaltwin:meta-model:1.0.0#&gt; .
-@prefix bamm-c: &lt;urn:bamm:org.open-manufacturing.digitaltwin:characteristic:1.0.0#&gt; .
-@prefix bamm-e: &lt;urn:bamm:org.open-manufacturing.digitaltwin:entity:1.0.0#&gt; .
-@prefix unit: &lt;urn:bamm:org.open-manufacturing.digitaltwin:unit:1.0.0#&gt; .
+@prefix bamm: &lt;urn:bamm:io.openmanufacturing:meta-model:1.0.0#&gt; .
+@prefix bamm-c: &lt;urn:bamm:io.openmanufacturing:characteristic:1.0.0#&gt; .
+@prefix bamm-e: &lt;urn:bamm:io.openmanufacturing:entity:1.0.0#&gt; .
+@prefix unit: &lt;urn:bamm:io.openmanufacturing:unit:1.0.0#&gt; .
 @prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .</code></pre>
 </div>
 </div>
@@ -356,10 +362,10 @@ that unused namespaces can be left out:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-turtle hljs" data-lang="turtle">@prefix : &lt;urn:bamm:com.mycompany.myapplication:1.0.0#&gt; .
-@prefix bamm: &lt;urn:bamm:org.open-manufacturing.digitaltwin:meta-model:1.0.0#&gt; .
-@prefix bamm-c: &lt;urn:bamm:org.open-manufacturing.digitaltwin:characteristic:1.0.0#&gt; .
-@prefix bamm-e: &lt;urn:bamm:org.open-manufacturing.digitaltwin:entity:1.0.0#&gt; .
-@prefix unit: &lt;urn:bamm:org.open-manufacturing.digitaltwin:unit:1.0.0#&gt; .
+@prefix bamm: &lt;urn:bamm:io.openmanufacturing:meta-model:1.0.0#&gt; .
+@prefix bamm-c: &lt;urn:bamm:io.openmanufacturing:characteristic:1.0.0#&gt; .
+@prefix bamm-e: &lt;urn:bamm:io.openmanufacturing:entity:1.0.0#&gt; .
+@prefix unit: &lt;urn:bamm:io.openmanufacturing:unit:1.0.0#&gt; .
 @prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
 
 :MyAspect a bamm:Aspect ;
@@ -1260,7 +1266,7 @@ have identifiers which are also valid URLs:</p>
 <p>If an external model element should be referenced that has a unique identifier which is not a URI,
 but a well-known resolver exists, you can either use the resolver&#8217;s URL or a synthetic URN. For
 example, for the Digital Object Identifier (DOI,
-<a href="appendix/appendix.html#doi" class="page">[DOI]</a>) <code>10.1109/NetSys.2017.7903949</code>, you can
+<a href="../snapshot/appendix/appendix.html#doi" class="page">[DOI]</a>) <code>10.1109/NetSys.2017.7903949</code>, you can
 use as the value for <code>bamm:see</code> either the URL <code>https://doi.org/10.1109/NetSys.2017.7903949</code> or the
 URN <code>urn:doi:10.1109/NetSys.2017.7903949</code>.</p>
 </div>
@@ -1268,7 +1274,7 @@ URN <code>urn:doi:10.1109/NetSys.2017.7903949</code>.</p>
 <p>If an external model element should be referenced that has a unique identifier which is not a URI
 and there is no well-known resolver, use a synthetic URN structure. One example are Object
 Identifiers as specified by ITU and ISO/IEC (OID) and the mapping to URNs in RFC 3061
-<a href="appendix/appendix.html#rfc3061" class="page">[rfc3061]</a>, so for example, for the OID
+<a href="../snapshot/appendix/appendix.html#rfc3061" class="page">[rfc3061]</a>, so for example, for the OID
 <code>1.3.6.1.4.1.1919.1.1.2</code>, the corresponding <code>bamm:see</code> value would be
 <code>urn:oid:1.3.6.1.4.1.1919.1.1.2</code>:</p>
 </div>
@@ -1307,8 +1313,8 @@ defined, and how the definition for the <code>toggleStatus</code> Property itsel
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-turtle hljs" data-lang="turtle">@prefix : &lt;urn:bamm:com.mycompany.myapplication:1.0.0#&gt; .
-@prefix bamm: &lt;urn:bamm:org.open-manufacturing.digitaltwin:meta-model:1.0.0#&gt; .
-@prefix bamm-c: &lt;urn:bamm:org.open-manufacturing.digitaltwin:characteristic:1.0.0#&gt; .
+@prefix bamm: &lt;urn:bamm:io.openmanufacturing:meta-model:1.0.0#&gt; .
+@prefix bamm-c: &lt;urn:bamm:io.openmanufacturing:characteristic:1.0.0#&gt; .
 @prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
 
 :MyAspect a bamm:Aspect ;
