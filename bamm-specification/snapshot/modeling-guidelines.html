@@ -292,10 +292,10 @@ referred via other namespaces (e.g., "xsd:"). See
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-turtle hljs" data-lang="turtle">@prefix : &lt;urn:bamm:com.mycompany.myapplication:1.0.0#&gt; .
-@prefix bamm: &lt;urn:bamm:io.openmanufacturing:meta-model:1.0.0#&gt; .
-@prefix bamm-c: &lt;urn:bamm:io.openmanufacturing:characteristic:1.0.0#&gt; .
-@prefix bamm-e: &lt;urn:bamm:io.openmanufacturing:entity:1.0.0#&gt; .
-@prefix unit: &lt;urn:bamm:io.openmanufacturing:unit:1.0.0#&gt; .
+@prefix bamm: &lt;urn:bamm:io.openmanufacturing:meta-model:2.0.0#&gt; .
+@prefix bamm-c: &lt;urn:bamm:io.openmanufacturing:characteristic:2.0.0#&gt; .
+@prefix bamm-e: &lt;urn:bamm:io.openmanufacturing:entity:2.0.0#&gt; .
+@prefix unit: &lt;urn:bamm:io.openmanufacturing:unit:2.0.0#&gt; .
 @prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .</code></pre>
 </div>
 </div>
@@ -323,15 +323,20 @@ addition to the general attributes, every Aspect Model element has the following
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>bamm:properties</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The list of Properties of this Aspect. The attribute must be present, but the
-  list may be empty.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check-circle fa-2x"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The list of Properties of this Aspect. Leaving out this
+  attribute completely is equivalent to having it present with an empty list as value.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times-circle fa-2x"></i></span></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>bamm:operations</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The list of Operations of this Aspect. The attribute must be present, but the
-  list may be empty.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check-circle fa-2x"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The list of Operations of this Aspect. Leaving out this
+  attribute completely is equivalent to having it present with an empty list as value.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times-circle fa-2x"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bamm:events</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The list of Events of this Aspect.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times-circle fa-2x"></i></span></p></td>
 </tr>
 </tbody>
 </table>
@@ -356,10 +361,10 @@ that unused namespaces can be left out:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-turtle hljs" data-lang="turtle">@prefix : &lt;urn:bamm:com.mycompany.myapplication:1.0.0#&gt; .
-@prefix bamm: &lt;urn:bamm:io.openmanufacturing:meta-model:1.0.0#&gt; .
-@prefix bamm-c: &lt;urn:bamm:io.openmanufacturing:characteristic:1.0.0#&gt; .
-@prefix bamm-e: &lt;urn:bamm:io.openmanufacturing:entity:1.0.0#&gt; .
-@prefix unit: &lt;urn:bamm:io.openmanufacturing:unit:1.0.0#&gt; .
+@prefix bamm: &lt;urn:bamm:io.openmanufacturing:meta-model:2.0.0#&gt; .
+@prefix bamm-c: &lt;urn:bamm:io.openmanufacturing:characteristic:2.0.0#&gt; .
+@prefix bamm-e: &lt;urn:bamm:io.openmanufacturing:entity:2.0.0#&gt; .
+@prefix unit: &lt;urn:bamm:io.openmanufacturing:unit:2.0.0#&gt; .
 @prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
 
 :MyAspect a bamm:Aspect ;
@@ -641,7 +646,7 @@ syntax can be used:</p>
    bamm-c:values ( "2010-01-01"^^xsd:date "2012-05-07"^^xsd:date "2018-03-08"^^xsd:date ) .</code></pre>
 </div>
 </div>
-<div class="paragraph">
+<div id="enumeration-with-complex-value" class="paragraph">
 <p>Example with complex values:</p>
 </div>
 <div class="paragraph">
@@ -650,6 +655,19 @@ actual value, e.g., the <code>state</code> in the example below, which provides 
 meaning of the value. This description only exists in the aspect model and is not part of the
 payload provided by an Aspect at runtime. In order to define that a Property of an Entity is not
 part of the runtime data, the <code>bamm:notInPayload</code> attribute is used.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>bamm:notInPayload</code> cannot be used in Abstract Entities, but the setting for a specific property
+is inherited when Entities are extended.
+</td>
+</tr>
+</table>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -713,17 +731,19 @@ Characteristic is used. This is a subclass of the <code>SortedSet</code> Charact
 <code>dataType</code> must be a subclass of the <code>TimeSeriesEntity</code>.</p>
 </div>
 <div class="paragraph">
-<p>The <code><a href="entities.html#time-series-entity" class="page">TimeSeriesEntity</a></code> is declared as an Abstract Entity. It defines the
-<code>timestamp</code> Property with the <code>Timestamp</code> Characteristic, which describes values containing timestamps conforming
-to <code><a href="datatypes.html#data-types" class="page">xsd:dateTime</a></code>, a date and time with or without time zone. No <code>value</code> Property is
-defined, hence the semantics of the value can be defined in the specific Aspect Model.</p>
+<p>The <code><a href="entities.html#time-series-entity" class="page">TimeSeriesEntity</a></code> is declared as an Abstract Entity. It
+defines the <code>timestamp</code> Property with the <code>Timestamp</code> Characteristic, which describes values
+containing timestamps conforming to <code><a href="datatypes.html#data-types" class="page">xsd:dateTime</a></code>, a date and time
+with or without time zone. It also defines <code>value</code> as an
+<a href="#abstract-entities-with-abstract-properties">Abstract Property</a>, i.e., a
+Property without a Characteristic.</p>
 </div>
 <div class="paragraph">
 <p>To create a Time Series for a specific domain, the user should instantiate the <code>TimeSeries</code>
-Collection Characteristic and set the <code>dataType</code> to an Entity which extends the Abstract <code>TimeSeries</code> Entity
-in order to define the semantics for the <code>value</code> Property in the context of the specific domain.
-Please see the <a href="#declaring-abstract-entities">Declaring Abstract Entities</a> section for
-information on how to extend an Abstract Entity.</p>
+Collection Characteristic and set the <code>dataType</code> to an Entity which extends the Abstract
+<code>TimeSeries</code> Entity in order to define the semantics for the <code>value</code> Property in the context of the
+specific domain. Please see the <a href="#declaring-abstract-entities">Declaring
+Abstract Entities</a> section for information on how to extend an Abstract Entity.</p>
 </div>
 <div class="paragraph">
 <p>Example:</p>
@@ -929,6 +949,46 @@ i.e., that the deconstruction rule actually does what the model author intended.
 </table>
 </div>
 </div>
+<div class="sect3">
+<h4 id="using-unit-reference"><a class="anchor" href="#using-unit-reference"></a>Using Unit Reference</h4>
+<div class="paragraph">
+<p>As explained in the section <a href="#declaring-quantifiable-values-and-measurements">Declaring Quantifiables and Measurements</a>, some values only make sense when they also have a unit assigned to them.
+This unit definition is in many cases fixed at design time, does not change thereafter and therefore at runtime (in the JSON payload for example), only the actual value is transported.<br>
+ There may be scenarios, however, where this permanent fixation on a specific unit might not be sufficient because the unit can only be determined dynamically
+at runtime, or is a kind of configuration parameter which must be set when the system is being deployed/starting up. In cases like this, a <a href="characteristics.html#unit-reference-characteristic" class="page">UnitReference</a> characteristic instance can be used to include a dynamic reference to the desired unit from the <a href="appendix/appendix.html#unit-catalog" class="page">Unit catalog</a> and this information is then always included in the payload. The runtime payload refers to the unit using its <code>bamm:curie</code>, i.e., the unit&#8217;s URN&#8217;s element name prefixed with <code>unit:</code>.</p>
+</div>
+<div class="paragraph">
+<p>For example an Aspect with the following model:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-turtle hljs" data-lang="turtle">:ValueWithDynamicUnit a bamm:Aspect ;
+  bamm:properties ( :value :unit ) ;
+  bamm:operations ( ) .
+
+:value a bamm:Property ;
+   bamm:exampleValue "2.25"^^xsd:float ;
+   bamm:characteristic :FloatValue .
+
+:FloatValue a bamm:Characteristic ;
+   bamm:dataType xsd:float .
+
+:unit a bamm:Property ;
+   bamm:characteristic bamm-c:UnitReference .</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>can produce a JSON payload that could look something like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "value" : 2.25,
+  "unit" : "unit:hectopascal"
+}</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="declaring-constraints"><a class="anchor" href="#declaring-constraints"></a>Declaring Constraints and Traits</h3>
@@ -955,11 +1015,11 @@ Constraint as a <code>bamm-c:constraint</code> to the Trait:</p>
 <pre class="highlightjs highlight"><code class="language-turtle hljs" data-lang="turtle">:numbers a bamm:Property ;
    bamm:characteristic [
      a bamm-c:Trait ;
+     bamm-c:baseCharacteristic :NumberList ;
      bamm-c:constraint [
        a bamm-c:LengthConstraint ;
        bamm:description "Limits the number list to 10 elements"@en ;
        bamm-c:maxValue "10"^^xsd:nonNegativeInteger ;
-       bamm-c:baseCharacteristic :NumberList ;
      ]
    ]  .
 
@@ -982,7 +1042,7 @@ Constraint</a> that limits the string to 80 characters.</p>
    bamm:characteristic :CodeWithLengthAndAscii .
 
 :CodeWithLengthAndAscii a bamm-c:Trait ;
-   bamm:description "A string code limited to 80 ASCII characters" ;
+   bamm:description "A string code limited to 80 ASCII characters"@en ;
    bamm-c:baseCharacteristic [
       a bamm-c:Code ;
       bamm:description "Denotes some kind of code with a string datatype"@en ;
@@ -1052,8 +1112,9 @@ When writing the <code>bamm:value</code>, backslashes (<code>\</code>) need to b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>bamm:properties</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The list of Properties which make up the Entity</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check-circle fa-2x"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The list of Properties which make up the Entity. Leaving out this
+  attribute completely is equivalent to having it present with an empty list as value.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times-circle fa-2x"></i></span></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>bamm:extends</code></p></td>
@@ -1101,15 +1162,31 @@ the Properties in their own declarations.</p>
 <p>The effective Property names, i.e. the payload name when <code>bamm:payloadName</code> is used, or the name of the Property,
 must be unique across the entire Entity inheritance chain. Otherwise the corresponding runtime payload is ambiguous.</p>
 </div>
+<div class="paragraph">
+<p>When one of the attributes <a href="#payload-names">bamm:payloadName</a>,
+<a href="#optional-properties">bamm:optional</a> or <code>bamm:notInPayload</code> is used on a specific property usage,
+its value is also inherited by the extending Entities. Using the example of <code>bamm:payloadName</code>,
+we could modify the above example to enforce the alternative naming for the <code>surname</code> property in the generated payloads
+and this change would apply to the <code>Person</code> Entity (directly) and both <code>Student</code> and <code>Teacher</code> Entities (via inheritance):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-turtle hljs" data-lang="turtle">:Person a bamm:Entity ;
+    bamm:properties ( :name [ bamm:property :surname ; bamm:payloadName "familyName" ] ) .</code></pre>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="declaring-abstract-entities"><a class="anchor" href="#declaring-abstract-entities"></a>Declaring Abstract Entities</h4>
 <div class="paragraph">
-<p>It is also possible to declare Abstract Entities to share Properties across multiple Entities. An Abstract Entity must
-be extended by one or more Entities.</p>
+<p>In contrast to Entities, Abstract Entities cannot directly be used as data types. The main use case
+for Abstract Entities is to share Properties across multiple Entities. This can be achieved through
+inheritance: Abstract Entities can extend other Entities and Abstract Entities and can themselves be
+extended in a manner not dissimilar to how abstract classes are used in many programming languages.</p>
 </div>
 <div class="paragraph">
-<p>Example:</p>
+<p>In the following example, both <code>SteeringWheel</code> and <code>Seat</code> <em>extend</em> the Abstract Entity
+<code>VehicleComponent</code>. Both inherit the <code>typeNumber</code> and the <code>manufacturer</code> Properties:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1122,8 +1199,61 @@ be extended by one or more Entities.</p>
 
 :Seat a bamm:Entity ;
    bamm:extends :VehicleComponent ;
-   bamm:properties ( :material )</code></pre>
+   bamm:properties ( :material ) .</code></pre>
 </div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="abstract-entities-with-abstract-properties"><a class="anchor" href="#abstract-entities-with-abstract-properties"></a>Abstract Entities with Abstract Properties</h4>
+<div class="paragraph">
+<p>When an Abstract Entity needs to be defined with a certain Property, but the modeler using the
+Abstract Entity (i.e., extending it) should be able to decide the Property&#8217;s Characteristic, the
+Property can be declared a <code>bamm:AbstractProperty</code>. An Abstract Property is similar to a Property,
+with two differences: Firstly, it has no <code>bamm:Characteristic</code> attribute and secondly, it must only
+be used in Abstract Entities. Consider the following example of two-dimensional vector which is
+declared as an Abstract Entity using two Abstract Properties for its <code>x</code> and <code>y</code> values, leaving for
+the user to decide which Characteristic and hence which data type should be used:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-turtle hljs" data-lang="turtle">:Vec2 a bamm:AbstractEntity ;
+   bamm:description "A two-dimensional vector"@en ;
+   bamm:properties ( :x :y ) .
+
+:x a bamm:AbstractProperty ;
+   bamm:description "The x part of the vector"@en .
+
+:y a bamm:AbstractProperty ;
+   bamm:description "The y part of the vector"@en .</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The usage of the Abstract Properties allows to specify the contract (a two-dimensional vector must
+have x and y Properties), but allows flexible reuse: Only when it is used, one must decide on the
+Characteristic and with it its effective datatype such as <code>xsd:int</code>, <code>xsd:float</code> or <code>xsd:decimal</code>.</p>
+</div>
+<div class="paragraph">
+<p>To use the <code>Vec2</code> Abstract Entity, the Characteristic to bind to the Abstract Properties is declared
+and then used as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-turtle hljs" data-lang="turtle">:IntegerNumber a bamm:Characteristic ;
+   bamm:dataType xsd:integer .
+
+:IntVec2 a bamm:Entity ;
+   bamm:extends :Vec2 ;
+   bamm:properties (
+     [ bamm:extends :x ; bamm:characteristic :IntegerNumber ]
+     [ bamm:extends :y ; bamm:characteristic :IntegerNumber ]
+   ) .</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that an Abstract Entity can have both <code>bamm:Property</code>&#8203;s and
+<code>bamm:AbstractProperty</code>&#8203;s (both are listed in <code>bamm:properties</code>). The properties list of an
+Entity that extends the Abstract Entity must specify the Characteristic to use for each of the
+Abstract Properties (and only those).</p>
 </div>
 </div>
 </div>
@@ -1253,7 +1383,7 @@ for example:</p>
 <div class="sect2">
 <h3 id="optional-properties"><a class="anchor" href="#optional-properties"></a>Optional Properties</h3>
 <div class="paragraph">
-<p>When Properties are used in Aspects and Entities, they can be marked as optional. This means that a
+<p>When Properties are used in Aspects and Entities, they can be marked as optional (not possible for properties of Abstract Entities). This means that a
 Property&#8217;s <em>usage</em> is optional, not the Property itself, which would make reusing a Property more
 difficult. In the following example, the Property <code>toggleStatus</code> is mandatory and the Property
 <code>errorMessage</code> is marked as optional in the Aspect. Note how the <code>bamm:properties</code> of the Aspect are
@@ -1263,8 +1393,8 @@ defined, and how the definition for the <code>toggleStatus</code> Property itsel
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-turtle hljs" data-lang="turtle">@prefix : &lt;urn:bamm:com.mycompany.myapplication:1.0.0#&gt; .
-@prefix bamm: &lt;urn:bamm:io.openmanufacturing:meta-model:1.0.0#&gt; .
-@prefix bamm-c: &lt;urn:bamm:io.openmanufacturing:characteristic:1.0.0#&gt; .
+@prefix bamm: &lt;urn:bamm:io.openmanufacturing:meta-model:2.0.0#&gt; .
+@prefix bamm-c: &lt;urn:bamm:io.openmanufacturing:characteristic:2.0.0#&gt; .
 @prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
 
 :MyAspect a bamm:Aspect ;
@@ -1295,13 +1425,26 @@ example), the Property is directly referenced. Writing <code>bamm:optional false
 </tr>
 </table>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The setting of the <code>bamm:optional</code> attribute for a specific property is inherited from parent Entity
+by the Entities extending it using the Entity extension mechanism (<code>bamm::extends</code>).
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect2">
-<h3 id="declaring-payload-names-for-properties"><a class="anchor" href="#declaring-payload-names-for-properties"></a>Declaring Payload Names for Properties</h3>
+<h3 id="payload-names"><a class="anchor" href="#payload-names"></a>Declaring Payload Names for Properties</h3>
 <div class="paragraph">
 <p>When Properties are used in Aspects and Entities, a runtime payload name can be defined for the
-Property. This means that in the context of the Aspect or Entity where the Property is used, the key
-of that Property in the runtime payload diverges from the Property&#8217;s <code>bamm:name</code>. This allows for
+Property. This means that in the context of the Aspect or Entity (payload names cannot be defined for Abstract Entities) where the Property is used, the key
+of that Property in the runtime payload diverges from the Property&#8217;s local name. This allows for
 the separation of the semantic name of the Property and the corresponding key in the runtime
 payload. In the following example we define a Property <code>errorMessage</code>. In the Aspect it is defined
 that the corresponding key in the payload is <code>error</code>.</p>
@@ -1321,19 +1464,18 @@ The value for the <code>bamm:payloadName</code> attribute must be of type <code>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-turtle hljs" data-lang="turtle">@prefix : &lt;urn:bamm:com.mycompany.myapplication:1.0.0#&gt; .
-@prefix bamm: &lt;urn:bamm:io.openmanufacturing:meta-model:1.0.0#&gt; .
-@prefix bamm-c: &lt;urn:bamm:io.openmanufacturing:characteristic:1.0.0#&gt; .
+@prefix bamm: &lt;urn:bamm:io.openmanufacturing:meta-model:2.0.0#&gt; .
+@prefix bamm-c: &lt;urn:bamm:io.openmanufacturing:characteristic:2.0.0#&gt; .
 @prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
 
+
 :MyAspect a bamm:Aspect ;
-   bamm:name "MyAspect" ;
    bamm:properties (
      [ bamm:property :errorMessage; bamm:payloadName "error" ]
    ) ;
    bamm:operations ( ) .
 
 :errorMessage a bamm:Property ;
-   bamm:name "errorMessage" ;
    bamm:characteristic bamm-c:Text .</code></pre>
 </div>
 </div>
@@ -1346,6 +1488,19 @@ The value for the <code>bamm:payloadName</code> attribute must be of type <code>
 <td class="content">
 A Property may not be marked as not being included in the payload using <code>bamm:notInPayload
 true</code> and have a payload name declared using <code>bamm:payloadName</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+It is also useful to know that the payload name definition is inherited from parent Entity
+by its children when using the Entity extension mechanism (<code>bamm::extends</code>).
 </td>
 </tr>
 </table>
@@ -1393,6 +1548,115 @@ longer has an identifier.</p>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="localization-of-aspect-models"><a class="anchor" href="#localization-of-aspect-models"></a>Localization of Aspect Models</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To understand the possibilities for localization of the models and their implications it is important to understand the differences
+between the data types <code>xsd:string</code> and <code>rdf:langString</code> and/or their respective characteristic
+counterparts <code>bamm-c:Text</code> and <code>bamm-c:MultiLanguageText</code>.</p>
+</div>
+<div class="paragraph">
+<p>To illustrate the differences between them and to give a typical example for localizable string
+that also needs to be included in the runtime payload, consider this model with a scalar <code>text</code> property:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-turtle hljs" data-lang="turtle">:Test a bamm:Aspect;
+    bamm:properties ( :text );
+    bamm:operations ( ).
+
+:text a bamm:Property ;
+   bamm:characteristic bamm-c:Text .</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The JSON payload for this model would then look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "text" : "My value"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice how the text is just a raw string, without any information about the language it is written in.
+When instead the <code>text</code> property is modeled as <code>bamm-c:MultiLanguageText</code> (instead of <code>bamm-c:Text</code>),
+the payload would change to include the information about the language and would look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "text" : {
+    "en" : "Example multi language string"
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Another common use case is the use of localized texts strictly for documentation purposes. This means that the multilanguage strings
+can only be seen when modeling, they are not contained in the runtime payloads.</p>
+</div>
+<div class="paragraph">
+<p>To illustrate how this is done, consider <a href="#enumeration-with-complex-value">this example</a>
+and imagine we would like the descriptions of the possible enumeration values to have localized version of the texts.
+This goal could be achieved by extending the model to look something like the following example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-turtle hljs" data-lang="turtle">:Results a bamm-c:Enumeration ;
+   bamm:dataType :Result ;
+   bamm-c:values ( :Success :Failed ) .
+
+:Result a bamm:Entity ;
+   bamm:properties ( :status [ bamm:property :description ; bamm:notInPayload true ] ) .
+
+:status a bamm:Property ;
+   bamm:characteristic bamm-c:Text .
+
+:description a bamm:Property ;
+   bamm:characteristic bamm-c:MultiLanguageText .
+
+:Success a :Result ;
+   :status "SUCCESS" ;
+   :description "Der Prozess war erfolgreich."@de .
+
+:Failed a :Result ;
+   :status "FAILURE" ;
+   :description "Der Prozess ist fehlgeschlagen."@de .</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note the use of the attribute <code>notInPayload</code> in usage of the property, ensuring that the <code>description</code>
+property will never be included in the runtime payloads.</p>
+</div>
+<div class="paragraph">
+<p>It is even possible to provide the description in multiple languages.
+To achieve this, we need to change the type of the <code>description</code> property to the Set Characteristic:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-turtle hljs" data-lang="turtle">:description a bamm:Property ;
+  bamm:characteristic [
+    a bamm-c:Set ;
+    bamm-c:elementCharacteristic bamm-c:MultiLanguageText ;
+  ] .
+
+:Success a :Result ;
+  :status "SUCCESS" ;
+  :description (
+    "Der Prozess war erfolgreich."@de
+    "The process completed successfully."@en
+  ) .</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice how it is now possible to use the <code>description</code> property with multiple texts with different language tags (<code>@de</code>) to achieve the proper localization of the texts
+for linguistically diverse audiences.</p>
 </div>
 </div>
 </div>
