@@ -32,22 +32,8 @@ class RegularExpressionConstraintShapeTest extends AbstractShapeTest {
    }
 
    @ParameterizedTest
-   @MethodSource( value = "versionsUpToIncluding2_2_0" )
+   @MethodSource( value = "allVersions" )
    void testRegularExpressionConstraintValidationWithInvalidRegularExpressionExpectFailure(
-         final KnownVersion metaModelVersion ) {
-      final SammUrns sammUrns = new SammUrns( metaModelVersion );
-      final String focusNode = testNamespacePrefix + "TestRegularExpressionConstraintWithInvalidRegularExpression";
-
-      final SemanticError resultForRegularExpression = new SemanticError(
-            messageInvalidRegularExpression, focusNode, sammUrns.valueUrn, violationUrn, "(" );
-      expectSemanticValidationErrors( SPEC_PATH,
-            "TestRegularExpressionConstraintWithInvalidRegularExpression",
-            metaModelVersion, resultForRegularExpression );
-   }
-
-   @ParameterizedTest
-   @MethodSource( value = "versionsStartingWith2_3_0" )
-   void testRegularExpressionConstraintValidationWithInvalidRegularExpressionExpectFailureAfter2_3_0(
          final KnownVersion metaModelVersion ) {
       final SammUrns sammUrns = new SammUrns( metaModelVersion );
 
